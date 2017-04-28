@@ -1,0 +1,21 @@
+<% if user_signed_in? %>
+
+<div id="post-feed">
+  <% @postfeed.each do |p| %>
+    <%= render partial: 'posts/post', locals: {post: p} %>
+  <% end %>
+</div>
+
+<div id="infinite-scrolling">
+  <%= will_paginate @postfeed %>
+</div>
+
+
+<% else %>
+<div class="starter-template">
+  <h1>CatBook</h1>
+  <p class="lead"> Welcome! <br> Social media for cats!</p>
+  <p> Don't have an account? <p>
+  <%= link_to "Sign up Now!", new_user_registration_url %>
+</div>
+<% end %>

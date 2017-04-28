@@ -1,0 +1,41 @@
+<div class="well">
+
+  <h3><%= post.title %></h3-> <br/>
+
+    <%= image_tag post.picture.url, class:"img-responsive" if post.picture? %>
+
+  <blockquote class="blockquote-reverse">
+    <p><%= post.body %></p>
+    <footer> posted <%= time_ago_in_words(post.created_at) unless post.created_at.blank? %> ago,
+                 by <%= link_to(post.user.firstname + " " + post.user.surname, post.user)%>
+                 <% if post.user.profile_pic? %>
+                   <%= image_tag post.user.profile_pic.url, class:"thumbnail-min" %>
+                 <% else %>
+                   <%= image_tag("profile-pic-blank.jpg", class:"thumbnail-min") %>
+                 <% end %> </footer>
+  </blockquote>
+
+
+
+<% if current_page?(action: 'index') %>
+  <%= form_for @comment, html: {class:"form-inline"} do |f| %>
+    <%= f.hidden_field :commentable_id, value: post.id %>
+    <%= f.hidden_field :commentable_type, value: post.class.name %>
+      <div class="form-group">
+        <%= f.text_field :body %>
+      </div>
+      <div class="form-group">
+        <%= f.submit "Comment"%>
+        <% end %>
+      </div>
+  <% if current_user?(post.user) %>
+    <%= link_to "delete", post, method: :delete %>
+  <% end %>
+<% end %>
+
+  <% if !post.comments.nil? %>
+    <% post.comments.each do |c| %>
+      <%= render partial: "shared/comment", locals: {comment: c} %>
+    <% end %>
+  <% end %>
+</div>

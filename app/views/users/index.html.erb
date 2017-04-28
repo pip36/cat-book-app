@@ -1,0 +1,12 @@
+<h1> All Users </h1>
+
+
+<div id="users-block">
+<% @users.each do |u| %>
+  <%= render partial: 'user', locals: {user: u} %>
+<% end %>
+</div>
+
+<div id="infinite-scrolling">
+  <%= will_paginate %>
+</div>
