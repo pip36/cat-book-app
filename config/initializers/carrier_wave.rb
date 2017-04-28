@@ -1,3 +1,4 @@
+require 'carrierwave'
 if Rails.env.production?
   Carrierwave.configure do |config|
     config.fog_credentials = {
