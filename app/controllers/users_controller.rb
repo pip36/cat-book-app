@@ -8,6 +8,7 @@ respond_to :html, :js
     @user = User.find(params[:id])
     @posts = @user.posts
     @post = current_user.posts.build
+    @comment = current_user.comments.new
   end
 
   def index
