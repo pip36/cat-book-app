@@ -33,7 +33,7 @@ class PictureUploader < CarrierWave::Uploader::Base
 
    def fix_rotation
      manipulate! do |image|
-       image.auto_orient!
+       image.auto_orient
        image
      end
    end
