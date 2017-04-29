@@ -32,9 +32,11 @@ class PictureUploader < CarrierWave::Uploader::Base
 
    def auto_orient
      manipulate! do |image|
-       image.tap(&:auto_orient)
+       image.tap(&:auto_orient!)
      end
    end
+
+   process :auto_orient
   #
   # def scale(width, height)
   #   # do something
