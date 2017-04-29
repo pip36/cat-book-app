@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).on("turbolinks:load", function(){
   if ($('#infinite-scrolling').size() > 0){
     return $(window).on('scroll',function(){
       var more_posts_url;
