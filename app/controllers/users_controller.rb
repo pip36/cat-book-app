@@ -9,6 +9,10 @@ respond_to :html, :js
     @posts = @user.posts
     @post = current_user.posts.build
     @comment = current_user.comments.new
+
+    if @user != current_user
+      @relationship = current_user.relationships.new
+    end
   end
 
   def index
