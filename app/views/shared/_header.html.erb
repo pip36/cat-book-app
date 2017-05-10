@@ -18,18 +18,31 @@
         <li><%= link_to "All Users", users_url %></li>
 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Friends <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PendingFriends <span class="caret"></span></a>
           <ul class="dropdown-menu">
 
             <% if user_signed_in? %>
-              <% current_user.recieved_friendships.each do |pending| %>
-                <li> <%= "#{pending.friend.firstname} #{pending.friend.surname}" %>
-              <%=  link_to "Accept Request", friendship_path(id: pending.id), method: :put %> <li>
+              <% current_user.pending.each do |pending| %>
+                <li> <%= "#{pending.firstname} #{pending.surname}" %>
+                  <% @id =  pending.friendships.where(friend_id: current_user.id).ids  %>
+              <%=  link_to "Accept Request", friendship_url(id: @id), method: :patch %> <li>
               <% end %>
 
 
             <li role="separator" class="divider"></li>
 
+<% end %>
+
+          </ul>
+        </li>
+
+
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Friends <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+
+            <% if user_signed_in? %>
             <% current_user.friends.each do |friend| %>
               <li> <%="#{friend.firstname} #{friend.surname}"%>
             <% end %>

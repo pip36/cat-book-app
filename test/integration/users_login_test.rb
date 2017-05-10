@@ -4,17 +4,37 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
-  test "login with invalid info" do
-    get new_user_session_url
-    assert_template 'devise/sessions/new'
-    post user_session_path, params:{session:{email:" ", password: " "}}
-    assert_template 'devise/sessions/new'
-    assert_not flash.empty?
-    get root_path
-    assert flash.empty?
+  def setup
+    @user = users(:phil)
   end
 
   test "login with valid info" do
-    
+    get new_user_session_url
+    assert_template 'devise/sessions/new'
+    sign_in(@user, "password")
+    follow_redirect!
+    assert_template 'staticpages/index'
+    assert_select 'a[href=?]', destroy_user_session_url
   end
+
+  test "login with invalid info" do
+    get new_user_session_url
+    sign_in(@user, "INVALIDPASSWORD")
+    assert_template 'devise/sessions/new'
+    assert_not flash.empty?
+  end
+
+  test "logout user" do
+    sign_in(@user, "password")
+    delete destroy_user_session_url
+    follow_redirect!
+    assert_template 'staticpages/index'
+    assert_select 'a[href=?]', new_user_session_url
+  end
+
+
+
+  private
+  
+
 end

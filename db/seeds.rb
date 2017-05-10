@@ -18,7 +18,7 @@ User.create!(firstname:"example", surname:"example", email:"example@example.com"
   email = "example-#{n+1}@example.com"
   password = "password"
   User.create!(firstname: firstname, surname: surname, email: email, password: password, password_confirmation: password)
-
+  Friendship.create!(user_id: User.last.id, friend_id: 1, accepted: false)
 end
 
 

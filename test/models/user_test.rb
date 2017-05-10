@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-     @user = User.new(firstname: "test", surname: "test", email: "test@example.com",
+     @user = User.new(firstname: "test", surname: "test", email: "tests@example.com",
                      password: "password", password_confirmation: "password")
    end
 
@@ -41,11 +41,11 @@ class UserTest < ActiveSupport::TestCase
      assert @user.password == @user.password_confirmation
    end
 
-   test "password should be larger than 5 characters" do
-     assert @user.password.length > 5
+   test "password length should be between 6 and 20" do
+     assert @user.password.length > 5 && @user.password.length < 21
    end
 
-   test "email should be uniwue to user" do
+   test "email should be unique to user" do
      duplicate = @user.dup
      @user.save
      assert_not duplicate.valid?

@@ -16,7 +16,8 @@ class FriendshipsController < ApplicationController
     @friendship.update_attribute(:accepted, true)
     if @friendship.save
       flash[:notice] = "Accepted Friend"
-      redirect_to :back
+      redirect_to root_url
+      puts @friendship.accepted
     else
       flash[:alert] = "Sorry! Failed to accept"
       redirect_to :back
