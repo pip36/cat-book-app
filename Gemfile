@@ -46,6 +46,13 @@ group :development, :test do
   gem 'byebug', platform: :mri
 end
 
+group :test do
+  gem 'rails-controller-testing', '~> 0.0.3'
+  gem 'minitest-reporters', '~> 1.1', '>= 1.1.11'
+  gem 'guard', '~> 2.14'
+  gem 'guard-minitest', '~> 2.4', '>= 2.4.6'
+end
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170430102346) do
+ActiveRecord::Schema.define(version: 20170503194724) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 20170430102346) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean  "accepted"
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
@@ -30,17 +41,6 @@ ActiveRecord::Schema.define(version: 20170430102346) do
     t.integer  "user_id"
     t.string   "picture"
     t.index ["user_id"], name: "index_posts_on_user_id"
-  end
-
-  create_table "relationships", force: :cascade do |t|
-    t.integer  "from_id"
-    t.integer  "to_id"
-    t.integer  "relationship_type"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.index ["from_id", "to_id"], name: "index_relationships_on_from_id_and_to_id", unique: true
-    t.index ["from_id"], name: "index_relationships_on_from_id"
-    t.index ["to_id"], name: "index_relationships_on_to_id"
   end
 
   create_table "users", force: :cascade do |t|
