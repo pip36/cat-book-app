@@ -22,9 +22,9 @@
           <ul class="dropdown-menu">
 
             <% if user_signed_in? %>
-              <% current_user.pending.each do |pending| %>
+              <% current_user.requested_friendships.each do |pending| %>
                 <li> <%= "#{pending.firstname} #{pending.surname}" %>
-                  <% @id =  pending.friendships.where(friend_id: current_user.id).ids  %>
+                  <% @id =  pending.friendships.where(friend_id: current_user.id).ids %>
               <%=  link_to "Accept Request", friendship_url(id: @id), method: :patch %> <li>
               <% end %>
 

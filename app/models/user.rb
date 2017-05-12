@@ -10,8 +10,8 @@ class User < ApplicationRecord
          has_many :posts, dependent: :destroy
          has_many :comments, dependent: :destroy
 
-         has_many :friendships
-         has_many :recieved_friendships, class_name: "Friendship", foreign_key: "friend_id"
+         has_many :friendships, dependent: :destroy
+         has_many :recieved_friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
 
          has_many :active_friends, -> {where(friendships:{accepted:true})}, through: :friendships, source: :friend
          has_many :recieved_friends, -> {where(friendships:{accepted:true})}, through: :recieved_friendships, source: :user

@@ -16,12 +16,19 @@ class FriendshipsController < ApplicationController
     @friendship.update_attribute(:accepted, true)
     if @friendship.save
       flash[:notice] = "Accepted Friend"
-      redirect_to root_url
+      redirect_to @friendship.user
       puts @friendship.accepted
     else
       flash[:alert] = "Sorry! Failed to accept"
       redirect_to :back
     end
+  end
+
+  def destroy
+    @friendship = Friendship.find_by(id: params[:id])
+    @friendship.destroy
+    flash[:notice] = "#{@friendship.user.firstname} removed as friend"
+    redirect_to root_url
   end
 
 end

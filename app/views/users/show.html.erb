@@ -9,7 +9,18 @@
 <% if current_user?(@user) %>
   <%= link_to "change profile pic", edit_user_registration_url %>
   <% else %>
-    <%= link_to "Add Friend", friendships_path(friend_id: @user.id), method: :post %>
+    <% friendship = @user.friendships.where("friend_id", current_user.id, "accepted", false) %>
+    <% if  current_user.friends.include? @user%>
+      <p> friends </p>
+      <%= link_to "Remove Friend", friendship_url(id: friendship.ids), method: :delete %>
+    <% elsif !current_user.requested_friendships.where(id: @user.id).empty? %>
+      <p> they have sent you a request <p>
+      <%=  link_to "Accept Request", friendship_url(id: friendship.ids), method: :patch %> <li>
+    <% elsif !current_user.pending_friends.where(id: @user.id).empty? %>
+      <p> request sent, waiting reply <p>
+    <% else %>
+      <%= link_to "Add Friend", friendships_path(friend_id: @user.id), method: :post %>
+    <% end %>
 <% end %>
 
 
