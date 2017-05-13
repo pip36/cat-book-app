@@ -27,4 +27,11 @@ class UserFriendshipFlowTest < ActionDispatch::IntegrationTest
     assert @friend.pending.count == 0
   end
 
+  test "delete a friend" do
+    @friendship = @user.friendships.create(friend_id: @friend.id, accepted: true)
+    delete friendship_url(@friendship)
+    follow_redirect!
+    assert @user.friends.count == 0
+  end
+
 end
