@@ -18,6 +18,8 @@ class User < ApplicationRecord
          has_many :pending_friends, -> {where(friendships:{accepted:false})}, through: :friendships, source: :friend
          has_many :requested_friendships, -> {where(friendships:{accepted:false})}, through: :recieved_friendships, source: :user
 
+         has_many :likes, dependent: :destroy
+         
          def friends
            active_friends | recieved_friends
          end

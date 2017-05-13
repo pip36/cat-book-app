@@ -15,7 +15,7 @@ def destroy
   @comment = Comment.find(params[:id])
   if @comment.user == current_user
     @comment.destroy
-    flash[:notice] = "Post deleted"
+    flash[:notice] = "Comment deleted"
     redirect_to root_url
   else
     flash[:alert] = "Delete failed"
