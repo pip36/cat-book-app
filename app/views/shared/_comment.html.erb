@@ -9,7 +9,22 @@
                  <% else %>
                    <%= image_tag("profile-pic-blank.jpg", class:"thumbnail-min") %>
                  <% end %> </footer>
+     <p>  likes - <%= comment.likes.count %> </p>
   </blockquote>
+
+  <% if comment.likes.where(user_id: current_user.id, liked_type: "Comment").exists? %>
+  <% @own_like = comment.likes.where(user_id: current_user.id, liked_type: "Comment") %>
+   <%= link_to "Unlike", like_path(@own_like.ids), method: :delete %>
+  <% else %>
+   <%= form_for(current_user.likes.build) do |f| %>
+     <%= hidden_field_tag :liked_id, comment.id %>
+     <%= hidden_field_tag :liked_type, "Comment" %>
+     <%= f.submit "Like" %>
+   <% end %>
+   <%end%>
+
+
+
 
   <% if current_user?(comment.user) %>
     <%= link_to "delete", comment, method: :delete %>
