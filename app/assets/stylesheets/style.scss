@@ -40,6 +40,9 @@ a{
   bottom: -50px;
   right: 0;
 }
+.logo-image{
+  float:right;
+}
 
 .pending-request{
   position: relative;
@@ -106,9 +109,7 @@ a{
   margin-right: 10%;
 }
 
-.logo-image{
-  height:60px;
-}
+
 
 //forms
 .form-control{
