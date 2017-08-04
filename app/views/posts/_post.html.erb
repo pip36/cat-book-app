@@ -1,7 +1,6 @@
 <div class="well">
 
   <h3><%= post.title %></h3-> <br/>
-  <p>  likes - <%= post.likes.count %> </p>
     <%= image_tag post.picture.url, class:"img-responsive" if post.picture? %>
 
   <blockquote class="blockquote-reverse">
@@ -14,36 +13,29 @@
                    <%= image_tag("profile-pic-blank.jpg", class:"thumbnail-min") %>
                  <% end %> </footer>
   </blockquote>
-
- <% if post.likes.where(user_id: current_user.id, liked_type: "Post").exists? %>
- <% @own_like = post.likes.where(user_id: current_user.id, liked_type: "Post") %>
-  <%= link_to "Unlike", like_path(@own_like.ids), method: :delete %>
- <% else %>
-  <%= form_for(current_user.likes.build) do |f| %>
-    <%= hidden_field_tag :liked_id, post.id %>
-    <%= hidden_field_tag :liked_type, "Post" %>
-    <%= f.submit "Like" %>
-  <% end %>
-  <%end%>
-
-
-
-
+<div id=<%= "like-Post-#{post.id}" %>>
+<%= render partial: 'likes/like', locals: {parent: post} %>
+</div>
+<div class='comment-form-container'>
 <% if current_page?(action: 'index') %>
-  <%= form_for @comment, html: {class:"form-inline"} do |f| %>
+  <button class='comment-link'> comment </button>
+
+  <%= form_for @comment, html: {class:"form-inline comment-form"} do |f| %>
     <%= f.hidden_field :commentable_id, value: post.id %>
     <%= f.hidden_field :commentable_type, value: post.class.name %>
       <div class="form-group">
         <%= f.text_field :body %>
       </div>
       <div class="form-group">
-        <%= f.submit "Comment"%>
+        <%= f.submit "Send"%>
         <% end %>
       </div>
+
   <% if current_user?(post.user) %>
     <%= link_to "delete", post, method: :delete %>
   <% end %>
 <% end %>
+</div>
 
   <% if !post.comments.nil? %>
     <% post.comments.each do |c| %>

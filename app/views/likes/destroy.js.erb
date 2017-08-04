@@ -1,0 +1,1 @@
+$("<%= '#like-'+ @like.liked_type + '-' + @like.liked.id.to_s %>").html("<%= escape_javascript(render partial: 'likes/like', locals: {parent: @like.liked}) %>");

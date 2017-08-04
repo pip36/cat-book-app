@@ -5,5 +5,7 @@ class Comment < ApplicationRecord
   has_many :posts, as: :commentable
   has_many :likes, as: :liked
 
+  default_scope -> {order(created_at: :desc)}
+
   validates :body, :user_id, :commentable_id, :commentable_type, presence: true
 end
