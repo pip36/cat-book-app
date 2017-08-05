@@ -1,16 +1,26 @@
 $(document).on('turbolinks:load',function(){
 
-  $('.reply-form').css("display","none");
-  $('.comment-form').css("display", "none");
+
+
+  $('.reply-entry').css("display","none");
+  $('.comment-entry').css("display", "none");
 
   $('.reply-link').click(function(){
-    $('.reply-form').css("display","none");
-    $(this).next().css("display","block");
+    $('#new_comment').css('display:none');
+    $(this).parents('.post-buttons').next().toggle();
   });
 
   $('.comment-link').click(function(){
-    $('.comment-form').css("display","none");
-    $(this).next().css("display","block");
+    $('#new_comment').css('display:none');
+
+  $(this).parents('.post-buttons').next().find('.comment-entry').toggle();
   });
+
+  $('#comment_body').focus(function(){
+    if ($(this).val() == "write a comment..."){
+      $(this).val("");
+    };
+  });
+
 
 });

@@ -1,45 +1,56 @@
 <div class="well">
-
-  <h3><%= post.title %></h3-> <br/>
-    <%= image_tag post.picture.url, class:"img-responsive" if post.picture? %>
-
-  <blockquote class="blockquote-reverse">
+<div class="post-header">
+  <% if post.user.profile_pic? %>
+    <%= image_tag post.user.profile_pic.url, class:"thumbnail-tiny" %>
+  <% else %>
+    <%= image_tag("profile-pic-blank.jpg", class:"thumbnail-tiny") %>
+  <% end %>
+  <%= link_to(post.user.firstname + " " + post.user.surname, post.user, class:"name-link")%>
+  <p class="name-link"> posted <%= time_ago_in_words(post.created_at) unless post.created_at.blank? %> ago </p>
+</div>
+  <div class="post">
+    <h3><%= post.title %></h3> <br/>
     <p><%= post.body %></p>
-    <footer> posted <%= time_ago_in_words(post.created_at) unless post.created_at.blank? %> ago,
-                 by <%= link_to(post.user.firstname + " " + post.user.surname, post.user)%>
-                 <% if post.user.profile_pic? %>
-                   <%= image_tag post.user.profile_pic.url, class:"thumbnail-min" %>
-                 <% else %>
-                   <%= image_tag("profile-pic-blank.jpg", class:"thumbnail-min") %>
-                 <% end %> </footer>
-  </blockquote>
-<div id=<%= "like-Post-#{post.id}" %>>
-<%= render partial: 'likes/like', locals: {parent: post} %>
+    <%= image_tag post.picture.url, class:"img-responsive" if post.picture? %>
+  </div>
+
+
+<div class="post-buttons">
+  <ul>
+    <li> <div id=<%= "like-Post-#{post.id}" %>>
+    <%= render partial: 'likes/like', locals: {parent: post} %>
+  </div></li>
+    <li> <a class='comment-link'> <%= image_tag "comment.png", class:"like-button" %>  <%= "#{post.comments.count} comments" %></a> </li>
+  </ul>
 </div>
 <div class='comment-form-container'>
 <% if current_page?(action: 'index') %>
-  <button class='comment-link'> comment </button>
+<div class="comment-entry">
+  <% if current_user.profile_pic? %>
+    <%= image_tag current_user.profile_pic.url, class:"thumbnail-min thumbnail-comment" %>
+  <% else %>
+    <%= image_tag("profile-pic-blank.jpg", class:"thumbnail-min thumbnail-comment") %>
+  <% end %>
 
   <%= form_for @comment, html: {class:"form-inline comment-form"} do |f| %>
     <%= f.hidden_field :commentable_id, value: post.id %>
     <%= f.hidden_field :commentable_type, value: post.class.name %>
-      <div class="form-group">
-        <%= f.text_field :body %>
-      </div>
-      <div class="form-group">
-        <%= f.submit "Send"%>
+        <%= f.text_field :body, value: "write a comment...", style: "color:grey" %>
+        <%= f.submit "Send", style: "visibility: hidden" %>
         <% end %>
-      </div>
-
-  <% if current_user?(post.user) %>
-    <%= link_to "delete", post, method: :delete %>
-  <% end %>
-<% end %>
+        <% if !post.comments.nil? %>
+          <% post.comments.each do |c| %>
+              <%= render partial: "shared/comment", locals: {comment: c} %>
+            <% end %>
+          <% end %>
+          <% if current_user?(post.user) %>
+            <%= link_to "delete", post, method: :delete %>
+          <% end %>
+        <% end %>
 </div>
 
-  <% if !post.comments.nil? %>
-    <% post.comments.each do |c| %>
-      <%= render partial: "shared/comment", locals: {comment: c} %>
-    <% end %>
-  <% end %>
+
+</div>
+
+
 </div>

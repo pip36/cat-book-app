@@ -2,14 +2,13 @@
 
  <% if parent.likes.where(user_id: current_user.id, liked_type: parent.class.name).exists? %>
  <% @own_like = parent.likes.where(user_id: current_user.id, liked_type: parent.class.name) %>
-  <%= link_to "Unlike", like_path(@own_like.ids), method: :delete, remote: true %>
-  <%= image_tag "cat-paw-icon.png", class: "like-icon" %>
-  <%= parent.likes.count %>
+  <%= link_to image_tag("cat-paw-icon.png", class: "like-button"), like_path(@own_like.ids), method: :delete, remote: true %>
+  <%= parent.likes.count %>  paws
  <% else %>
   <%= form_for(current_user.likes.build, remote: true) do |f| %>
     <%= hidden_field_tag :liked_id, parent.id %>
     <%= hidden_field_tag :liked_type, parent.class.name %>
-    <%= image_submit_tag "cat-paw-icon.png", class: "like-button" %>
-    <%= parent.likes.count %>
+    <%= image_submit_tag "cat-paw-icon.png", class: "like-button transparent" %>
+    <%= parent.likes.count %> paws
   <% end %>
   <%end%>
