@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   default_scope -> {order(created_at: :desc)}
   mount_uploader :picture, PictureUploader
 
-  validates :title, presence: true, length: {in: 2..24}
+  validates :title, length: {maximum: 20}
   validates :body, presence: true, length: {in: 2..250}
   validate :picture_size
 

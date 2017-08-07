@@ -1,0 +1,39 @@
+var type = "<%=@comment.commentable_type%>";
+var id = <%= @comment.commentable_id %>;
+var thisId = <%= @comment.id %>;
+
+console.log(thisId);
+console.log(type);
+
+if (type == "Post"){
+  $('#Post-' + id).find('.comments').first().append("<%= escape_javascript(render partial: 'comments/comment', locals: {comment: @comment}) %>");
+  $('#Post-' + id).find('.comments').show();
+};
+if (type == "Comment"){
+    $('#Comment-' + id).find('.replies').first().append("<%= escape_javascript(render partial: 'comments/comment', locals: {comment: @comment}) %>");
+    $('#Comment-' + id).find('.replies').show();
+}
+
+$('#Comment-' + thisId).find('.reply-post').click(function(){
+  console.log("reply clicked");
+  $(this).parents('.post-action-panel').next().find('.comment-entry').first().toggle();
+});
+
+$('#Comment-' + thisId).find('.comment-field').focus(function(){
+  console.log("text focused");
+  if ($(this).val() == "write a comment..."){
+    $(this).val("");
+  };
+});
+
+$('#Comment-' + thisId).find('.reply-link').click(function(){
+  console.log("comment clicked");
+  $(this).parents('.post-action-panel').next().find('.comments').toggle();
+});
+
+$('#Comment-' + thisId).find('.comment-entry').hide();
+
+
+//Find the post the comment belongs to in the html doc.
+// append this comment to it
+// update comment count

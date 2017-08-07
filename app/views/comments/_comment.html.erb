@@ -1,0 +1,50 @@
+<section class="comment" id=<%="Comment-#{comment.id}"%>>
+  <header class="comment-header">
+    <%= render partial: 'shared/profile_pic', locals:{user: comment.user} %>
+    <%= link_to(comment.user.firstname + " " + comment.user.surname, comment.user, class:"name-link")%>
+    <p class="name-link"> posted <%= time_ago_in_words(comment.created_at) unless comment.created_at.blank? %> ago </p>
+  </header>
+
+  <section class="comment-content">
+    <h4><%= comment.body %></h4>
+  </section>
+
+  <section class = "post-action-panel">
+    <ul>
+      <li id=<%= "like-Comment-#{comment.id}" %>>
+          <%= render partial: 'likes/like', locals: {parent: comment} %>
+      </li>
+      <li>
+        <a class='reply-link'> <%= image_tag "comment.png", class:"like-button" %><%= "#{comment.comments.count} comments" %> </a>
+      </li>
+      <li>
+        <a class="reply-post"> reply </a>
+      </li>
+      <% if current_user?(comment.user) %>
+        <li> <%= link_to "delete", comment, method: :delete %> </li>
+      <% end %>
+    </ul>
+  </section>
+  <section class="comments-container">
+  <div class="comment-entry">
+    <%= render partial: 'shared/profile_pic', locals:{user: current_user} %>
+
+    <%= form_for(comment, url: comments_url, method:"post", html: {class:"form-inline reply-form"}, remote:true) do |f| %>
+      <%= f.hidden_field :commentable_id, value: comment.id %>
+      <%= f.hidden_field :commentable_type, value: comment.class.name %>
+      <%= f.text_field :body, class: "comment-field", value: "write a comment...", style: "color:grey" %>
+      <%= f.submit "send", style:"visibility:hidden"%>
+    <% end %>
+  </div>
+
+  <section class="replies">
+
+
+    <% if !comment.comments.nil? %>
+      <% comment.comments.each do |c| %>
+        <%= render partial: "comments/comment", locals: {comment: c} %>
+      <% end %>
+    <% end %>
+  </section>
+</section>
+</section>

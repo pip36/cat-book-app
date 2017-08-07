@@ -3,11 +3,14 @@ class CommentsController < ApplicationController
 def create
   @comment = current_user.comments.create(comments_params)
   if @comment.save
-    flash[:notice] = "Comment posted!"
-    redirect_to root_url
+
   else
     flash[:alert] = "Comment failed..."
-    redirect_to root_url
+  end
+
+  respond_to do |format|
+    format.html { redirect_to root_url }
+    format.js
   end
 end
 
