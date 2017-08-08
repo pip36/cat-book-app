@@ -2,9 +2,6 @@ var type = "<%=@comment.commentable_type%>";
 var id = <%= @comment.commentable_id %>;
 var thisId = <%= @comment.id %>;
 
-console.log(thisId);
-console.log(type);
-
 if (type == "Post"){
   $('#Post-' + id).find('.comments').first().append("<%= escape_javascript(render partial: 'comments/comment', locals: {comment: @comment}) %>");
   $('#Post-' + id).find('.comments').show();
@@ -32,6 +29,8 @@ $('#Comment-' + thisId).find('.reply-link').click(function(){
 });
 
 $('#Comment-' + thisId).find('.comment-entry').hide();
+$('.comment-field').val("write a comment...").blur();
+
 
 
 //Find the post the comment belongs to in the html doc.
