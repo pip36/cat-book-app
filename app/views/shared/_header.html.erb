@@ -16,18 +16,16 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <% if user_signed_in? %>
       <ul class="nav navbar-nav">
-
         <li><%= link_to "All Users", users_url %></li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Friends <span class="caret"></span></a>
           <ul class="dropdown-menu">
-
             <% if user_signed_in? %>
-            <% current_user.friends.each do |friend| %>
-              <li> <%= link_to "#{friend.firstname} #{friend.surname}", friend %> <li>
+              <% current_user.friends.each do |friend| %>
+                <li> <%= link_to "#{friend.firstname} #{friend.surname}", friend %> </li>
+              <% end %>
             <% end %>
-<% end %>
 
             <li role="separator" class="divider"></li>
 
@@ -40,14 +38,12 @@
                     <%=  link_to((image_tag("tick.png", class: "small-icon")), friendship_url(id: @id), method: :patch) %>
                     <%= image_tag("cross.png", class: "small-icon") %>
                  </div>
-                 <div>
-
-
-            <li>
+               </div>
+              </li>
             <% end %>
           </ul>
         </li>
-<% end %>
+      <% end %>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
